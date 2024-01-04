@@ -330,8 +330,28 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  let result = -1;
+
+  for (let i = 0; i < arr.length; i += 1) {
+    let countFirst = 0;
+    let countSecond = 0;
+
+    for (let j = 0; j < i; j += 1) {
+      countFirst += arr[j];
+    }
+
+    for (let k = i + 1; k < arr.length; k += 1) {
+      countSecond += arr[k];
+    }
+
+    if (countFirst === countSecond) {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -355,6 +375,7 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
+
 function getSpiralMatrix(/* size */) {
   throw new Error('Not implemented');
 }
