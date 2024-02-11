@@ -376,8 +376,46 @@ function getBalanceIndex(arr) {
  *        ]
  */
 
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = [];
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+  }
+
+  let rowTop = 0;
+  let rowBottom = size - 1;
+  let leftColumn = 0;
+  let rightColumn = size - 1;
+  let count = 1;
+
+  while (count <= size * size) {
+    for (let i = rowTop; i <= rowBottom; i += 1) {
+      matrix[rowTop][i] = count;
+      count += 1;
+    }
+
+    for (let i = leftColumn + 1; i <= rightColumn; i += 1) {
+      matrix[i][rowBottom] = count;
+      count += 1;
+    }
+
+    for (let i = rowBottom - 1; i > rowTop - 1; i -= 1) {
+      matrix[rowBottom][i] = count;
+      count += 1;
+    }
+
+    for (let i = rightColumn - 1; i > leftColumn; i -= 1) {
+      matrix[i][leftColumn] = count;
+      count += 1;
+    }
+
+    rowTop += 1;
+    leftColumn += 1;
+    rowBottom -= 1;
+    rightColumn -= 1;
+  }
+
+  return matrix;
 }
 
 /**
@@ -395,8 +433,21 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const result = [];
+  for (let i = 0; i < matrix.length; i += 1) {
+    result[i] = [...matrix];
+    for (let k = 0; k < matrix.length; k += 1) {
+      result[i][k] = matrix[matrix.length - 1 - k][i];
+    }
+  }
+  const matrixEdited = matrix;
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let k = 0; k < matrix.length; k += 1) {
+      matrixEdited[i][k] = result[i][k];
+    }
+  }
+  return result;
 }
 
 /**
@@ -405,7 +456,7 @@ function rotateMatrix(/* matrix */) {
  * Take into account that the array can be very large. Consider how you can optimize your solution.
  * In this task, the use of methods of the Array and String classes is not allowed.
  *
- * @param {number[]} arr - The array to sort.
+ * @param {number[]} array - The array to sort.
  * @return {number[]} The sorted array.
  *
  * @example:
@@ -413,8 +464,21 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+
+function sortByAsc(arr) {
+  const array = arr;
+
+  for (let i = 1; i < array.length; i += 1) {
+    const currentNumb = array[i];
+
+    let j = i;
+    while (j > 0 && currentNumb < arr[j - 1]) {
+      array[j] = arr[j - 1];
+      j -= 1;
+    }
+    array[j] = currentNumb;
+  }
+  return array;
 }
 
 /**
@@ -422,8 +486,8 @@ function sortByAsc(/* arr */) {
  * Take into account that the string can be very long and the number of iterations is large. Consider how you can optimize your solution.
  * Usage of Array class methods is not allowed in this task.
  *
- * @param {string} str - The string to shuffle.
- * @param {number} iterations - The number of iterations to perform the shuffle.
+ * @param {string} string - The string to shuffle.
+ * @param {number} iter - The number of iterations to perform the shuffle.
  * @return {string} The shuffled string.
  *
  * @example:
@@ -434,8 +498,37 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  const originalString = str;
+  let currentString = str;
+  let shuffledString = '';
+  let iter = iterations;
+  let cycleCount = 0;
+
+  while (iter > 0) {
+    let oddNumbers = '';
+    let evenNumbers = '';
+
+    for (let j = 0; j < currentString.length; j += 1) {
+      if (j % 2 !== 0) {
+        oddNumbers += currentString[j];
+      } else {
+        evenNumbers += currentString[j];
+      }
+    }
+    iter -= 1;
+    cycleCount += 1;
+
+    shuffledString = evenNumbers + oddNumbers;
+
+    currentString = shuffledString;
+
+    if (shuffledString === originalString) {
+      iter = iterations % cycleCount;
+    }
+  }
+
+  return shuffledString;
 }
 
 /**
